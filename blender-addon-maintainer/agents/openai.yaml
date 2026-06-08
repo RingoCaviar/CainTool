@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blender Addon Maintainer"
+  short_description: "Maintain and extend the modular Blender N-panel addon scaffold."
+  default_prompt: "Use $blender-addon-maintainer to add or refactor a feature in this Blender N-panel extension."

@@ -1,0 +1,7 @@
+ADDON_ID = "caintool"
+ADDON_NAME = "CainTool"
+ADDON_VERSION = (0, 1, 0)
+
+VIEW3D_SPACE = "VIEW_3D"
+UI_REGION = "UI"
+PANEL_CATEGORY = "CainTool"

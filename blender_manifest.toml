@@ -1,0 +1,15 @@
+schema_version = "1.0.0"
+
+id = "caintool"
+version = "0.1.0"
+name = "CainTool"
+tagline = "Modular Blender tools for the 3D View N panel"
+maintainer = "CainTool"
+type = "add-on"
+
+tags = ["3D View", "Object", "User Interface"]
+blender_version_min = "4.2.0"
+
+license = [
+  "SPDX:GPL-3.0-or-later",
+]
