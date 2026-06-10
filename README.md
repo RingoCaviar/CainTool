@@ -7,6 +7,7 @@ CainTool 是一个面向 Blender 4.2+ 的模块化工具插件，入口位于 `3
 ## 适用场景
 
 - 同一批对象需要统一设置某个 Blender 属性
+- 需要一键删除选中物体关联的动画数据
 - 需要快速给多个对象补一段“当前值 -> 目标值”的偏移关键帧
 - 需要临时隐藏一整组父子层级，并在之后精确恢复原始状态
 - 多场景项目中，希望把当前场景的渲染设置同步到其它场景
@@ -18,6 +19,7 @@ CainTool 是一个面向 Blender 4.2+ 的模块化工具插件，入口位于 `3
 
 | 模块 | 作用 | 说明 |
 | --- | --- | --- |
+| 常用命令 | 放置高频的一键操作命令 | 当前包含“删除选中物体动画”，会清除选中物体、物体数据块和形态键上的动画数据 |
 | 批量设置属性 | 给选中对象统一写入同一个属性值 | 支持布尔、整数、浮点、字符串、枚举、向量、颜色等输入模式；支持从右键属性菜单快速带入属性名和值 |
 | 渐入渐出 | 为选中对象按规则插入当前帧与偏移帧关键帧 | 可同时配置多条属性规则；支持从右键属性菜单快速添加当前属性 |
 | 父子级隐藏 | 隐藏选中父级及其整棵子层级，并保存可见性快照 | 支持单独恢复或全部恢复，也可选是否同时影响渲染可见性和可选择状态 |
@@ -55,7 +57,18 @@ blender --command extension build --source-dir /path/to/CainTool
 
 ## 快速使用
 
-### 1. 批量设置属性
+### 1. 常用命令
+
+- 在 `Object Mode` 下选中一个或多个对象。
+- 点击“删除选中物体动画”。
+- 插件会删除选中物体关联的动画数据，包括 Object、Object Data 和 Shape Keys 上的 action、drivers 和 NLA 数据。
+
+说明：
+
+- 灯光亮度、相机焦距等动画通常保存在物体数据块上，也会一起清除。
+- 如果多个物体共享同一个数据块，Blender 会把这份共享数据块动画一并清除。
+
+### 2. 批量设置属性
 
 - 在 `Object Mode` 下选中一个或多个对象。
 - 填写直接属性名，例如 `hide_render`、`location`、`energy`。
@@ -67,7 +80,7 @@ blender --command extension build --source-dir /path/to/CainTool
 - 这里只支持“直接属性名”，不支持复杂路径表达式。
 - 可以在 Blender 属性上右键，把当前属性和值快速带入到 CainTool 面板。
 
-### 2. 渐入渐出
+### 3. 渐入渐出
 
 - 为一个或多个属性添加规则。
 - 设置 `frame_offset`，插件会在当前帧和偏移帧之间插入一组过渡关键帧。
@@ -79,7 +92,7 @@ blender --command extension build --source-dir /path/to/CainTool
 - 灯光能量变化
 - 位置、颜色等属性的短过渡
 
-### 3. 父子级隐藏
+### 4. 父子级隐藏
 
 - 选中父级对象后执行隐藏。
 - 插件会自动收集整个层级，并记录原始可见性状态。
@@ -90,7 +103,7 @@ blender --command extension build --source-dir /path/to/CainTool
 - 临时收起某一整组绑定层级
 - 切换制作状态时保留原始可见性
 
-### 4. 渲染设置同步
+### 5. 渲染设置同步
 
 - 在目标场景上勾选“作为同步目标”。
 - 在主控场景中执行“立即同步”，或开启自动同步。
@@ -101,7 +114,7 @@ blender --command extension build --source-dir /path/to/CainTool
 - 输出路径不会被覆盖。
 - 自动同步带有简单防抖，避免连续修改时频繁触发。
 
-### 5. 修改场景参数
+### 6. 修改场景参数
 
 - 设置 `Cycles` 最终采样、视口采样和自适应阈值。
 - 点击应用后，所有 `Cycles` 场景会统一更新。
@@ -165,6 +178,7 @@ blender --command extension validate /path/to/caintool.zip
 ## 当前测试覆盖的服务
 
 - `batch_property_service`
+- `common_command_service`
 - `keyframe_transition_service`
 - `parent_child_hide_service`
 - `render_sync_service`

@@ -23,6 +23,7 @@ caintool/
 |  |- base.py
 |  |- batch_property_tools.py
 |  |- collection_tools.py
+|  |- common_command_tools.py
 |  |- keyframe_transition_tools.py
 |  |- object_tools.py
 |  |- parent_child_hide_tools.py
@@ -32,6 +33,7 @@ caintool/
 |- services/
 |  |- __init__.py
 |  |- batch_property_service.py
+|  |- common_command_service.py
 |  |- keyframe_transition_service.py
 |  |- object_service.py
 |  |- parent_child_hide_service.py
@@ -92,6 +94,7 @@ python -m py_compile __init__.py registration.py properties.py feature_registry.
 
 - Object Tools: batch rename, apply transforms, set origin to geometry.
 - Collection Tools: link selected objects into a named collection without unlinking other memberships.
+- Common Command: clear animation data from selected objects and their linked data blocks.
 - Batch Property: set one property value across the current object selection.
 - Keyframe Transition: create offset keyframe transitions from current values.
 - Parent Child Hide: hide selected parent hierarchies and restore stored visibility states.

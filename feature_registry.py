@@ -1,5 +1,6 @@
 from .features import (
     batch_property_tools,
+    common_command_tools,
     keyframe_transition_tools,
     parent_child_hide_tools,
     render_sync_tools,
@@ -7,6 +8,7 @@ from .features import (
 )
 
 FEATURE_MODULES = (
+    common_command_tools,
     batch_property_tools,
     keyframe_transition_tools,
     parent_child_hide_tools,

@@ -3,6 +3,7 @@ import bpy
 from ..constants import PANEL_CATEGORY, UI_REGION, VIEW3D_SPACE
 from ..features import (
     batch_property_tools,
+    common_command_tools,
     keyframe_transition_tools,
     parent_child_hide_tools,
     render_sync_tools,
@@ -43,6 +44,26 @@ class CAINTOOL_PT_batch_property(bpy.types.Panel):
         layout.use_property_split = True
         layout.use_property_decorate = False
         batch_property_tools.draw_feature(layout, context)
+
+
+class CAINTOOL_PT_common_commands(bpy.types.Panel):
+    bl_idname = "CAINTOOL_PT_common_commands"
+    bl_label = "常用命令"
+    bl_space_type = VIEW3D_SPACE
+    bl_region_type = UI_REGION
+    bl_category = PANEL_CATEGORY
+    bl_parent_id = CAINTOOL_PT_toolkit.bl_idname
+    bl_options = {"DEFAULT_CLOSED"}
+
+    def draw_header(self, context):
+        del context
+        self.layout.label(text="", icon="TOOL_SETTINGS")
+
+    def draw(self, context):
+        layout = self.layout
+        layout.use_property_split = True
+        layout.use_property_decorate = False
+        common_command_tools.draw_feature(layout, context)
 
 
 class CAINTOOL_PT_keyframe_transition(bpy.types.Panel):
@@ -127,6 +148,7 @@ class CAINTOOL_PT_render_sync(bpy.types.Panel):
 
 CLASSES = (
     CAINTOOL_PT_toolkit,
+    CAINTOOL_PT_common_commands,
     CAINTOOL_PT_batch_property,
     CAINTOOL_PT_keyframe_transition,
     CAINTOOL_PT_parent_child_hide,
