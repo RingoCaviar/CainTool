@@ -1,6 +1,6 @@
 # CainTool
 
-CainTool 是一个面向 Blender 4.2+ 的模块化工具插件，入口位于 `3D View > Sidebar > CainTool`。它把一组高频但重复的工作流工具集中到同一个 N 面板里，重点解决批量属性修改、关键帧过渡、父子层级隐藏、多场景渲染设置同步，以及 Cycles 场景参数统一调整这类问题。
+CainTool 是一个面向 Blender 4.2+ 的模块化工具插件，入口位于 `3D View > Sidebar > CainTool`。它把一组高频但重复的工作流工具集中到同一个 N 面板里，重点解决常用命令执行、批量属性修改、关键帧过渡、父子层级隐藏、多场景渲染设置同步，以及 Cycles 场景参数统一调整这类问题。
 
 这个仓库除了提供现成工具，也刻意保留了清晰的模块边界，方便后续继续扩展，而不是把所有逻辑重新堆回单个脚本。
 
@@ -19,7 +19,7 @@ CainTool 是一个面向 Blender 4.2+ 的模块化工具插件，入口位于 `3
 
 | 模块 | 作用 | 说明 |
 | --- | --- | --- |
-| 常用命令 | 放置高频的一键操作命令 | 当前包含“删除选中物体动画”，会清除选中物体、物体数据块和形态键上的动画数据 |
+| 常用命令 | 放置高频的一键操作命令 | 当前包含“删除选中物体动画”，会清除选中物体、物体数据块和形态键上的动画数据，并刷新相关编辑器 |
 | 批量设置属性 | 给选中对象统一写入同一个属性值 | 支持布尔、整数、浮点、字符串、枚举、向量、颜色等输入模式；支持从右键属性菜单快速带入属性名和值 |
 | 渐入渐出 | 为选中对象按规则插入当前帧与偏移帧关键帧 | 可同时配置多条属性规则；支持从右键属性菜单快速添加当前属性 |
 | 父子级隐藏 | 隐藏选中父级及其整棵子层级，并保存可见性快照 | 支持单独恢复或全部恢复，也可选是否同时影响渲染可见性和可选择状态 |
@@ -62,11 +62,13 @@ blender --command extension build --source-dir /path/to/CainTool
 - 在 `Object Mode` 下选中一个或多个对象。
 - 点击“删除选中物体动画”。
 - 插件会删除选中物体关联的动画数据，包括 Object、Object Data 和 Shape Keys 上的 action、drivers 和 NLA 数据。
+- 删除成功后会主动刷新当前视图层、时间线、大纲、属性面板、Dope Sheet、Graph Editor 和 NLA Editor。
 
 说明：
 
 - 灯光亮度、相机焦距等动画通常保存在物体数据块上，也会一起清除。
 - 如果多个物体共享同一个数据块，Blender 会把这份共享数据块动画一并清除。
+- 如果没有找到可删除的动画数据，命令会提示并保持当前场景不变。
 
 ### 2. 批量设置属性
 
@@ -156,7 +158,7 @@ python -m unittest discover -s tests -p "test_*.py"
 ### 代码级检查
 
 ```bash
-python -m py_compile __init__.py registration.py properties.py feature_registry.py
+python -m py_compile __init__.py registration.py properties.py feature_registry.py ui/panels.py features/common_command_tools.py services/common_command_service.py
 ```
 
 ### Blender 扩展校验
