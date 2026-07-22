@@ -96,6 +96,47 @@ class ParentChildHideServiceTests(unittest.TestCase):
         self.assertFalse(root.hide_viewport)
         self.assertTrue(child.hide_render)
 
+    def test_restore_disambiguates_ids_copied_to_another_hierarchy(self):
+        root = DummyObject("Root")
+        child = DummyObject("Child", parent=root)
+
+        result = parent_child_hide_service.hide_selected_hierarchies(
+            (root,),
+            view_layer=object(),
+            include_render=True,
+            include_select=True,
+        )
+
+        copied_root = DummyObject("Root.001")
+        copied_child = DummyObject("Child.001", parent=copied_root)
+        copied_root._props.update(root._props)
+        copied_child._props.update(child._props)
+        copied_root.hide_render = True
+        copied_child.hide_render = True
+
+        restored_count = parent_child_hide_service.restore_hierarchy_snapshot(
+            result.snapshots[0].data,
+            (copied_root, copied_child, root, child),
+            view_layer=object(),
+        )
+
+        self.assertEqual(restored_count, 2)
+        self.assertFalse(root.hide_render)
+        self.assertFalse(child.hide_render)
+        self.assertTrue(copied_root.hide_render)
+        self.assertTrue(copied_child.hide_render)
+
+    def test_restore_uses_unique_id_after_object_is_renamed(self):
+        obj = DummyObject("Original")
+        object_id = parent_child_hide_service.ensure_object_id(obj)
+        obj.name = "Renamed"
+
+        found = parent_child_hide_service.find_object_by_id(
+            (obj,), object_id, "Original"
+        )
+
+        self.assertIs(found, obj)
+
 
 if __name__ == "__main__":
     unittest.main()

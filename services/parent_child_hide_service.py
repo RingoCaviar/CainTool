@@ -145,9 +145,24 @@ def ensure_object_id(obj: object) -> str:
 
 def find_object_by_id(objects, object_id: str, fallback_name: str = ""):
     if object_id:
+        id_matches = []
         for obj in objects:
             if obj.get(ID_PROP) == object_id:
-                return obj
+                id_matches.append(obj)
+
+        # Blender duplicates custom properties together with an object.  A copied
+        # hierarchy can therefore contain the same CainTool IDs as its source.
+        # Prefer the name stored in the snapshot when an ID is ambiguous, or a
+        # restore may modify an unrelated object that happens to be encountered
+        # first in bpy.data.objects.
+        if fallback_name:
+            for obj in id_matches:
+                if getattr(obj, "name", "") == fallback_name:
+                    return obj
+
+        # Keep ID-based restoration working when the original object was renamed.
+        if len(id_matches) == 1:
+            return id_matches[0]
 
     if fallback_name:
         getter = getattr(objects, "get", None)
