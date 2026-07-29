@@ -1,13 +1,13 @@
 schema_version = "1.0.0"
 
 id = "caintool"
-version = "0.1.0"
+version = "0.5.0"
 name = "CainTool"
 tagline = "Modular Blender tools for the 3D View N panel"
 maintainer = "CainTool"
 type = "add-on"
 
-tags = ["3D View", "Object", "User Interface"]
+tags = ["3D View", "Object", "User Interface", "Pipeline"]
 blender_version_min = "4.2.0"
 
 license = [

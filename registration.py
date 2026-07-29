@@ -5,6 +5,9 @@ from .feature_registry import get_feature_classes, register_features, unregister
 from .ui.panels import CLASSES as PANEL_CLASSES
 
 CORE_CLASSES = (
+    properties.CAINTOOL_PG_resource_item,
+    properties.CAINTOOL_PG_resource_reference,
+    properties.CAINTOOL_PG_reference_flow_item,
     properties.CAINTOOL_PG_transition_rule,
     properties.CAINTOOL_PG_settings,
     *PANEL_CLASSES,

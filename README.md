@@ -1,5 +1,21 @@
 # CainTool
 
+## External Resource Manager (0.5.0)
+
+The **外部资源管理器** scans file-backed Blender data, generic RNA file-path properties, and linked `.blend` libraries. It shows missing/packed/generated status and references, supports locating object references and selectively making linked data local, and copies resources into a typed `assets/` tree beside the saved project before changing paths to Blender-relative `//assets/...` paths.
+
+Quick and full scans, hashing, copying, verification, and path updates run as cancellable incremental tasks. The manager reports the current stage and item, item/byte progress, throughput, elapsed time, ETA, errors, and a retained task log. Open the large manager dialog from `3D View > Sidebar > CainTool > 外部资源管理器`.
+
+Safety defaults: source files are never moved or deleted, destination conflicts receive a content-hash suffix, copied files are verified before path changes, and unsaved projects cannot be packaged with relative paths.
+
+Image resources expose a complete expandable reference chain through image nodes, nested node groups, materials or geometry-node modifiers, objects, collections, scenes, and view layers. Every row has its own locate action: materials activate the correct object slot, nodes open and select inside their node tree, and scene/object/collection rows switch to their corresponding Blender context.
+
+The default reference view summarizes unique meaningful users instead of expanding every graph path. Materials are listed once with their object/slot hosts collapsed below them; worlds, lights, compositors, geometry-node modifiers, and unresolved node users have separate groups. Selecting a user shows one concise clickable breadcrumb path at a time, while the raw graph remains available as an advanced view.
+
+The manager dialog uses a two-column inspector: the left side is the active resource browser and the right side always shows that resource's usage overview and an automatically selected visual flow. Packaging checkboxes are independent operator controls and do not set the active resource. Flow cards wrap three per row, show the incoming relationship and Blender data type, and can each navigate to that point in the chain.
+
+Reference flows now always continue to the graph's real terminal node instead of stopping at the selected material, host, or first image node. Nested group instances and parent collections remain visible through the outermost node tree, object, collection hierarchy, scene, and view layer. The inspector renders this as a compact scrollable vertical pipeline; scan settings, task details, user switching, and the raw graph are collapsed by default.
+
 CainTool 是一个面向 Blender 4.2+ 的模块化工具插件，入口位于 `3D View > Sidebar > CainTool`。它把一组高频但重复的工作流工具集中到同一个 N 面板里，重点解决常用命令执行、批量属性修改、关键帧过渡、父子层级隐藏、多场景渲染设置同步，以及 Cycles 场景参数统一调整这类问题。
 
 这个仓库除了提供现成工具，也刻意保留了清晰的模块边界，方便后续继续扩展，而不是把所有逻辑重新堆回单个脚本。

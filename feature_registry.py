@@ -3,6 +3,7 @@ from .features import (
     common_command_tools,
     keyframe_transition_tools,
     parent_child_hide_tools,
+    resource_manager_tools,
     render_sync_tools,
     scene_render_tools,
 )
@@ -12,6 +13,7 @@ FEATURE_MODULES = (
     batch_property_tools,
     keyframe_transition_tools,
     parent_child_hide_tools,
+    resource_manager_tools,
     render_sync_tools,
     scene_render_tools,
 )

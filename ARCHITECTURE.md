@@ -92,6 +92,12 @@ python -m py_compile __init__.py registration.py properties.py feature_registry.
 
 ## Current Feature Set
 
+- Resource Manager: scan external files and linked libraries, inspect references, hash duplicates, localize linked data, and copy resources into a relative `assets/` project layout with detailed cancellable progress.
+- Image references are represented as a directed graph covering texture nodes, nested node groups, materials, modifiers, objects, collections, scenes, and view layers. The manager derives cycle-safe paths from this graph and dispatches navigation through per-data-type locators.
+- The default resource UI derives de-duplicated usage groups from the graph and shows full paths only for the selected user; the raw graph is retained as an advanced diagnostic view.
+- The large manager dialog is a master/detail inspector: resource activation and package selection are independent, while the detail column always derives an overview and a default clickable flow from the active resource ID.
+- Display flows use complete root-to-leaf graph paths and a separate scrollable UI collection; usage selection filters branches but never truncates the visible path. Collection parent edges preserve project hierarchy before scene/view-layer terminals.
+
 - Object Tools: batch rename, apply transforms, set origin to geometry.
 - Collection Tools: link selected objects into a named collection without unlinking other memberships.
 - Common Command: clear animation data from selected objects and their linked data blocks.

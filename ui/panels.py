@@ -6,6 +6,7 @@ from ..features import (
     common_command_tools,
     keyframe_transition_tools,
     parent_child_hide_tools,
+    resource_manager_tools,
     render_sync_tools,
     scene_render_tools,
 )
@@ -146,6 +147,23 @@ class CAINTOOL_PT_render_sync(bpy.types.Panel):
         render_sync_tools.draw_feature(layout, context)
 
 
+class CAINTOOL_PT_resource_manager(bpy.types.Panel):
+    bl_idname = "CAINTOOL_PT_resource_manager"
+    bl_label = "外部资源管理器"
+    bl_space_type = VIEW3D_SPACE
+    bl_region_type = UI_REGION
+    bl_category = PANEL_CATEGORY
+    bl_parent_id = CAINTOOL_PT_toolkit.bl_idname
+    bl_options = {"DEFAULT_CLOSED"}
+
+    def draw_header(self, context):
+        del context
+        self.layout.label(text="", icon="ASSET_MANAGER")
+
+    def draw(self, context):
+        resource_manager_tools.draw_feature(self.layout, context)
+
+
 CLASSES = (
     CAINTOOL_PT_toolkit,
     CAINTOOL_PT_common_commands,
@@ -153,5 +171,6 @@ CLASSES = (
     CAINTOOL_PT_keyframe_transition,
     CAINTOOL_PT_parent_child_hide,
     CAINTOOL_PT_render_sync,
+    CAINTOOL_PT_resource_manager,
     CAINTOOL_PT_scene_render,
 )
