@@ -64,6 +64,17 @@ def draw_feature(layout, context) -> None:
 
     layout.separator(factor=0.75)
 
+    options_col = layout.column(align=True)
+    options_col.label(text="选择同步内容：", icon="CHECKBOX_HLT")
+    options_col.prop(settings, "render_sync_render_settings")
+    options_col.prop(settings, "render_sync_color_management")
+    options_col.prop(settings, "render_sync_engine_settings")
+    options_col.prop(settings, "render_sync_world")
+    options_col.prop(settings, "render_sync_output_format")
+    options_col.prop(settings, "render_sync_render_passes")
+
+    layout.separator(factor=0.75)
+
     list_col = layout.column(align=True)
     list_col.label(text="选择目标场景：", icon="SCENE_DATA")
 
@@ -105,12 +116,28 @@ def _perform_sync(master_scene):
 
     IS_SYNCING = True
     try:
-        result = render_sync_service.perform_sync(master_scene, bpy.data.scenes)
+        result = render_sync_service.perform_sync(
+            master_scene,
+            bpy.data.scenes,
+            _sync_options_from_scene(master_scene),
+        )
     finally:
         IS_SYNCING = False
 
     _mark_scene_updates_ignored((master_scene.name, *(scene.name for scene in target_scenes)))
     return result
+
+
+def _sync_options_from_scene(scene):
+    settings = scene.caintool
+    return render_sync_service.RenderSyncOptions(
+        render_settings=settings.render_sync_render_settings,
+        color_management=settings.render_sync_color_management,
+        engine_settings=settings.render_sync_engine_settings,
+        world=settings.render_sync_world,
+        output_format=settings.render_sync_output_format,
+        render_passes=settings.render_sync_render_passes,
+    )
 
 
 def _queue_auto_sync(scene_name: str) -> None:

@@ -104,6 +104,6 @@ python -m py_compile __init__.py registration.py properties.py feature_registry.
 - Batch Property: set one property value across the current object selection.
 - Keyframe Transition: create offset keyframe transitions from current values.
 - Parent Child Hide: hide selected parent hierarchies and restore stored visibility states.
-- Render Sync: sync the current scene render settings to checked target scenes.
+- Render Sync: selectively sync render, color management, engine, world, output format, and render-pass settings from the current scene to checked target scenes without changing output paths.
 - Scene Render: apply shared Cycles sample settings across all scenes.
 - Template Feature: disabled example module used as a safe starting point for future additions.

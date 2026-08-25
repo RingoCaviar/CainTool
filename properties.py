@@ -291,6 +291,24 @@ class CAINTOOL_PG_settings(bpy.types.PropertyGroup):
         description="开启后，修改当前场景时会自动同步到已勾选目标场景",
         default=False,
     )
+    render_sync_render_settings: bpy.props.BoolProperty(
+        name="基础渲染参数", description="同步分辨率、帧率等通用渲染参数", default=True,
+    )
+    render_sync_color_management: bpy.props.BoolProperty(
+        name="色彩管理", description="同步视图变换、Look、曝光和伽马等色彩管理设置", default=True,
+    )
+    render_sync_engine_settings: bpy.props.BoolProperty(
+        name="渲染引擎参数", description="同步渲染引擎及 Cycles 或 Eevee 参数", default=True,
+    )
+    render_sync_world: bpy.props.BoolProperty(
+        name="世界环境", description="让目标场景使用当前场景的世界环境", default=True,
+    )
+    render_sync_output_format: bpy.props.BoolProperty(
+        name="输出文件格式", description="同步图像或视频编码格式，但不覆盖输出路径", default=False,
+    )
+    render_sync_render_passes: bpy.props.BoolProperty(
+        name="渲染通道", description="按同名视图层同步启用的渲染通道", default=True,
+    )
     parent_child_hide_include_render: bpy.props.BoolProperty(
         name="同时隐藏渲染",
         description="隐藏时同时处理渲染可见性，并在恢复时还原",
